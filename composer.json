@@ -1,0 +1,24 @@
+{
+    "name": "secom-tocantins/diarias",
+    "description": "Sistema de Controle de Diárias",
+    "license": "GPL-2.0+",
+    "keywords": [ ],
+    "authors": [
+        {
+            "name": "Carlos André Ferrari",
+            "email": "caferrari@gmail.com",
+            "homepage": "http://ferrari.eti.br",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "require": {
+        "php": ">=5.3",
+        "zendframework/zendframework": "2.*",
+        "doctrine/doctrine-mongo-odm-module": "dev-master",
+        "wesleywillians/son-base" : "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
