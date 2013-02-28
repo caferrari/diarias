@@ -19,5 +19,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
+    },
+    "config" : {
+        "process-timeout" : 4000
     }
 }
