@@ -1,6 +1,7 @@
 <?php
 return array(
     'modules' => array(
+        'Diarias',
         'DoctrineModule',
         'DoctrineMongoODMModule'
     ),
