@@ -1,0 +1,24 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="Bootstrap.php"
+         cacheTokens="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+         verbose="false">
+    <testsuites>
+        <testsuite name="Tests">
+            <directory>./src/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>../src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
