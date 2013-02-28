@@ -1,6 +1,21 @@
 <?php
 
+namespace Diarias;
+
 return array(
+    'doctrine' => array(
+        'driver' => array(
+            __NAMESPACE__ . '_driver' => array(
+                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
+                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Document')
+            ),
+            'odm_default' => array(
+                'drivers' => array(
+                    __NAMESPACE__ . '\Document' => __NAMESPACE__ . '_driver'
+                )
+            )
+        )
+    ),
     'router' => array(
         'routes' => array(
             'home' => array(

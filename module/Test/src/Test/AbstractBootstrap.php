@@ -82,14 +82,13 @@ abstract class AbstractBootstrap
             }
 
             include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
-
         }
 
         AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf' => true,
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/' . __NAMESPACE__,
+                    __NAMESPACE__ => __DIR__,
                 ),
             ),
         ));

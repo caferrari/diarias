@@ -7,7 +7,7 @@ use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\Mvc\MvcEvent;
 use Doctrine\ORM\EntityManager;
 
-chdir(__DIR__.'/../../../../../');
+//chdir(__DIR__.'/../../../../../');
 
 class TestCase extends \PHPUnit_Framework_TestCase {
 
@@ -57,34 +57,26 @@ class TestCase extends \PHPUnit_Framework_TestCase {
                 ->setResponse($this->application->getResponse())
                 ->setRouter($this->serviceManager->get('Router'));
 
+
+        /*
         $this->em = $this->serviceManager->get('Doctrine\ORM\EntityManager');
 
         foreach($this->filterModules() as $m)
             $this->createDatabase($m);
-
+        */
     }
 
     private function filterModules()
     {
         $array = array();
         foreach($this->modules as $m) {
-            if ($m <> "DoctrineModule" and $m <> "DoctrineORMModule" and $m <> "SONBase" and $m <> "DoctrineDataFixtureModule")
+            if ($m <> "DoctrineMongoODMModule" and $m <> "DoctrineModule" and $m <> "DoctrineORMModule" and $m <> "SONBase" and $m <> "DoctrineDataFixtureModule")
                 $array[] = $m;
         }
         return $array;
     }
 
-    public function createDatabase($module) {
-        if (file_exists(getcwd().'/module/' . $module . '/db/create.sql')) {
-            $sql = file(getcwd().'/module/' . $module . '/db/create.sql');
-            foreach ($sql as $s) {
-                $this->getEm()->getConnection()->exec($s);
-            }
-
-           $this->getEm()->getConnection()->exec('SET FOREIGN_KEY_CHECKS = 0;');
-        }
-    }
-
+    /*
     public function tearDown() {
         parent::tearDown();
 
@@ -100,8 +92,9 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
         }
     }
+    */
 
-    public function getEm() {
-        return $this->em = $this->serviceManager->get('Doctrine\ORM\EntityManager');
+    public function getDm() {
+        return $this->dm = $this->application->getServiceManager()->get('doctrine.documentmanager.odm_default');
     }
 }

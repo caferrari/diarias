@@ -2,3 +2,4 @@ composer.lock
 vendor
 config/autoload/module.doctrine-mongo-odm.local.php
 diarias.sublime*
+data/DoctrineMongoODMModule/
