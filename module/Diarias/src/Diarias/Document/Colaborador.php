@@ -19,6 +19,9 @@ class Colaborador
     /** @ODM\Int */
     private $matricula;
 
+    /** @ODM\String */
+    private $cpf;
+
     public function __set($key, $value)
     {
         $setMethod = "set" . ucfirst($key);
@@ -41,5 +44,12 @@ class Colaborador
 
     public function setNome($nome) {
         $this->nome = mb_strtoupper($nome);
+    }
+
+    public function setCpf($cpf) {
+        if (!is_numeric($cpf) || strlen($cpf) != 11) {
+            throw new \InvalidArgumentException("CPF inválido");
+        }
+        $this->cpf = $cpf;
     }
 }

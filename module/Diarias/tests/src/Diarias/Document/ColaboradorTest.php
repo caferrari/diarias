@@ -44,7 +44,6 @@ class ColaboradorTest extends TestCase
         $dm = $this->getDm();
 
         $collection = $dm->getDocumentCollection('Diarias\Document\Colaborador');
-        $collection->drop();
 
         $c = new Document\Colaborador;
 
@@ -73,7 +72,8 @@ class ColaboradorTest extends TestCase
         return array(
             array('id', 1),
             array('nome', 'FULANO'),
-            array('matricula', 123)
+            array('matricula', 123),
+            array('cpf', '00217064175')
         );
     }
 
