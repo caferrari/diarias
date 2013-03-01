@@ -27,7 +27,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
         parent::setup();
 
         $pathDir = getcwd()."/";
-        $config = include $pathDir.'config/application.config.php';
+        $config = include $pathDir.'config/test.config.php';
 
         $this->serviceManager = new ServiceManager(new ServiceManagerConfig(
                                 isset($config['service_manager']) ? $config['service_manager'] : array()
@@ -57,13 +57,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
                 ->setResponse($this->application->getResponse())
                 ->setRouter($this->serviceManager->get('Router'));
 
-
-        /*
-        $this->em = $this->serviceManager->get('Doctrine\ORM\EntityManager');
-
-        foreach($this->filterModules() as $m)
-            $this->createDatabase($m);
-        */
+        $this->dm = $this->getDm();
     }
 
     private function filterModules()
@@ -76,23 +70,10 @@ class TestCase extends \PHPUnit_Framework_TestCase {
         return $array;
     }
 
-    /*
     public function tearDown() {
         parent::tearDown();
-
-        foreach($this->filterModules()  as $m)
-        {
-            if (file_exists(getcwd().'/module/' . $m . '/db/drop.sql')) {
-                $sql = file(getcwd().'/module/' . $m . '/db/drop.sql');
-                foreach ($sql as $s) {
-                    $this->getEm()->getConnection()->exec($s);
-                }
-
-            }
-
-        }
+        $this->getDm()->getConnection()->dropDatabase('mongodb_test');
     }
-    */
 
     public function getDm() {
         return $this->dm = $this->application->getServiceManager()->get('doctrine.documentmanager.odm_default');

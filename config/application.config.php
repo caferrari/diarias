@@ -14,5 +14,5 @@ return array(
             './module',
             './vendor',
         ),
-    ),
+    )
 );
