@@ -3,6 +3,7 @@ return array(
     'modules' => array(
         'Diarias',
         'Test',
+        'Common',
         'DoctrineModule',
         'DoctrineMongoODMModule'
     ),
