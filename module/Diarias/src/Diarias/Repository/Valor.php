@@ -23,6 +23,7 @@ class Valor extends DocumentRepository
     {
         $this->getDm()->createQueryBuilder($this->getDocumentClass())
             ->update()
+            ->multiple(true)
             ->field('cargos')->pullAll($cargos)
             ->getQuery()
             ->execute();
