@@ -19,14 +19,14 @@ class ValorTest extends TestCase
 
     public function testSeClassTemMetodoGetDM()
     {
-        $obj = new Valor($this->getDm());
-        $dm = $obj->getDm();
+        $repository = new Valor($this->getDm());
+        $dm = $repository->getDm();
         $this->assertInstanceOf('Doctrine\ODM\MongoDB\DocumentManager', $dm);
     }
 
     public function testVerificaInsert()
     {
-        $obj = new Valor($this->getDm());
+        $repository = new Valor($this->getDm());
 
         $data = array(
             'valor_capital_estado' => 125.60,
@@ -34,9 +34,40 @@ class ValorTest extends TestCase
             'valor_interior' => 50,
             'cargos' => array('DAS-10', 'CPC-IV')
         );
-        $result = $obj->insert($data);
+        $result = $repository->insert($data);
 
         $this->assertInstanceOf('Diarias\Document\Valor', $result);
+    }
+
+    public function testSeNaoPermiteDuplicarCargos() {
+        $data1 = array(
+            'valor_capital_estado' => 125.60,
+            'valor_capital' => 115.99,
+            'valor_interior' => 50,
+            'cargos' => array('DAS-10', 'CPC-IV')
+        );
+
+        $data2 = array(
+            'valor_capital_estado' => 125.60,
+            'valor_capital' => 115.99,
+            'valor_interior' => 50,
+            'cargos' => array('DAS-10', 'CPC III')
+        );
+
+        $repository = new Valor($this->getDm());
+
+        $repository->insert($data1);
+        $doc2 = $repository->insert($data2);
+
+        $docs = $this->getDm()->createQueryBuilder('Diarias\Document\Valor')
+                ->field('cargos')->equals('DAS-10')
+                ->getQuery()
+                ->execute();
+
+        $docs = array_values(iterator_to_array($docs));
+
+        $this->assertEquals($doc2->id, $docs[0]->id);
+        $this->assertEquals(1, count($docs));
     }
 
 
