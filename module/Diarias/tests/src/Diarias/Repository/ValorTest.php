@@ -92,5 +92,39 @@ class ValorTest extends TestCase
         $this->assertEquals(array('DAS-10', 'CPC III'), $doc2->cargos);
     }
 
+    public function testLerTodosOsCargos()
+    {
+        $repository = new Valor($this->getDm());
+
+        $this->assertEquals(0, count($repository->getCargos()));
+
+        $data1 = array(
+            'valor_capital_estado' => 125.60,
+            'valor_capital' => 115.99,
+            'valor_interior' => 50,
+            'cargos' => array('DAS-10', 'CPC-IV', 'CPC-I')
+        );
+
+        $data2 = array(
+            'valor_capital_estado' => 125.60,
+            'valor_capital' => 115.99,
+            'valor_interior' => 50,
+            'cargos' => array('DAS-10', 'CPC-III', 'DAS-9')
+        );
+
+        $data3 = array(
+            'valor_capital_estado' => 125.60,
+            'valor_capital' => 115.99,
+            'valor_interior' => 50,
+            'cargos' => array('DAS-9', 'CPC-I')
+        );
+
+        $repository->insert($data1);
+        $repository->insert($data2);
+        $repository->insert($data3);
+
+        $this->assertEquals(5, count($repository->getCargos()));
+        $this->assertEquals(array('CPC-I', 'CPC-III', 'CPC-IV', 'DAS-10', 'DAS-9'), $repository->getCargos());
+    }
 
 }
