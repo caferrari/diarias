@@ -1,6 +1,6 @@
 <?php
 
-namespace Diarias;
+namespace Diarias\Document;
 
 use Test\TestCase;
 
@@ -15,8 +15,9 @@ class ValorTest extends TestCase
     /**
       * @dataProvider providerCampos
       */
-    public function testCampos($campo, $valor) {
-        $c = new Document\Valor;
+    public function testCampos($campo, $valor)
+    {
+        $c = new Valor;
         $campos = get_object_vars($c);
 
         try {
@@ -33,7 +34,7 @@ class ValorTest extends TestCase
 
         $collection = $dm->getDocumentCollection('Diarias\Document\Valor');
 
-        $c = new Document\Valor;
+        $c = new Valor;
         $c->valor_capital_estado = 110.5;
         $c->valor_capital = 110.60;
         $c->valor_interior = 110.55;
@@ -43,7 +44,7 @@ class ValorTest extends TestCase
 
         $this->assertEquals(1, $collection->count());
 
-        $c = new Document\Valor;
+        $c = new Valor;
         $c->valor_capital_estado = 110.5;
         $c->valor_capital = 110.60;
         $c->valor_interior = 110.55;
@@ -58,11 +59,13 @@ class ValorTest extends TestCase
         $this->assertEquals($obj, $c);
     }
 
-    public function testSeRetornaExceptionAoRepetirCargos() {
+    public function testSeRetornaExceptionAoRepetirCargos()
+    {
 
     }
 
-    public function providerCampos() {
+    public function providerCampos()
+    {
         return array(
             array('id', 1),
             array('valor_capital_estado', 125.50),

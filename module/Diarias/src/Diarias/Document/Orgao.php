@@ -14,7 +14,8 @@ class Orgao extends Document
     /** @ODM\String */
     protected $nome;
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         if (!is_string($nome) || empty($nome)) {
             throw new \InvalidArgumentException("Nome deve ser String");
         }

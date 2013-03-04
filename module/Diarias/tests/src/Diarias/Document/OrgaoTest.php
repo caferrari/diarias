@@ -1,6 +1,6 @@
 <?php
 
-namespace Diarias;
+namespace Diarias\Document;
 
 use Test\TestCase;
 
@@ -16,7 +16,7 @@ class OrgaoTest extends TestCase
       * @dataProvider providerCampos
       */
     public function testCampos($campo, $valor) {
-        $c = new Document\Orgao;
+        $c = new Orgao;
         $campos = get_object_vars($c);
 
         try {
@@ -33,14 +33,14 @@ class OrgaoTest extends TestCase
 
         $collection = $dm->getDocumentCollection('Diarias\Document\Orgao');
 
-        $c = new Document\Orgao;
+        $c = new Orgao;
         $c->nome = 'Secretaria da Comunicação';
         $dm->persist($c);
         $dm->flush();
 
         $this->assertEquals(1, $collection->count());
 
-        $c = new Document\Orgao;
+        $c = new Orgao;
         $c->nome = 'Secretaria da Educação';
         $dm->persist($c);
         $dm->flush();
@@ -56,12 +56,14 @@ class OrgaoTest extends TestCase
       * @dataProvider providerNomesInvalidos
       * @expectedException InvalidArgumentException
       */
-    public function testSeAceitaNomesInvalidos($nome) {
-        $c = new Document\Orgao;
+    public function testSeAceitaNomesInvalidos($nome)
+    {
+        $c = new Orgao;
         $c->nome = $nome;
     }
 
-    public function providerCampos() {
+    public function providerCampos()
+    {
         return array(
             array('id', 1),
             array('nome', 'SECRETARIA DA COMUNICAÇÃO SOCIAL'),

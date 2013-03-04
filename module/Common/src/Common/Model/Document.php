@@ -5,6 +5,25 @@ namespace Common\Model;
 abstract class Document
 {
 
+    public function __construct(array $data = null)
+    {
+        if ($data) {
+            $this->setData($data);
+        }
+    }
+
+    public function setData($data)
+    {
+        foreach ($data as $k => $v) {
+            $this->$k = $v;
+        }
+    }
+
+    public function getData()
+    {
+        return get_object_vars($this);
+    }
+
     public function __set($key, $value)
     {
         $setMethod = "set" . ucfirst($key);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Diarias;
+namespace Diarias\Document;
 
 use Test\TestCase;
 
@@ -10,15 +10,16 @@ class ColaboradorTest extends TestCase
     public function testSeClasseColaboradorExiste()
     {
         $this->assertTrue(class_exists('Diarias\Document\Colaborador'));
-        $c = new Document\Colaborador;
+        $c = new Colaborador;
         $this->assertTrue(get_class($c) == 'Diarias\Document\Colaborador');
     }
 
     /**
       * @dataProvider providerCampos
       */
-    public function testCampos($campo, $valor) {
-        $c = new Document\Colaborador;
+    public function testCampos($campo, $valor)
+    {
+        $c = new Colaborador;
 
         $campos = get_object_vars($c);
 
@@ -33,8 +34,9 @@ class ColaboradorTest extends TestCase
     /**
       * @dataProvider providerNomes
       */
-    public function testSeConverteNomesParaMaiusculas($nomeOriginal, $nomeEsperado) {
-        $c = new Document\Colaborador;
+    public function testSeConverteNomesParaMaiusculas($nomeOriginal, $nomeEsperado)
+    {
+        $c = new Colaborador;
         $c->nome = $nomeOriginal;
         $this->assertEquals($nomeEsperado, $c->nome);
     }
@@ -45,7 +47,7 @@ class ColaboradorTest extends TestCase
 
         $collection = $dm->getDocumentCollection('Diarias\Document\Colaborador');
 
-        $c = new Document\Colaborador;
+        $c = new Colaborador;
 
         $c->nome = 'Carlos André Ferrari';
         $c->email = 'caferrari@gmail.com';
@@ -60,7 +62,8 @@ class ColaboradorTest extends TestCase
         $this->assertEquals($obj, $c);
     }
 
-    public function providerNomes() {
+    public function providerNomes()
+    {
         return array(
             array('carlos andré ferrari', 'CARLOS ANDRÉ FERRARI'),
             array('carlos AndRé Ferrari', 'CARLOS ANDRÉ FERRARI'),
@@ -68,7 +71,8 @@ class ColaboradorTest extends TestCase
         );
     }
 
-    public function providerCampos() {
+    public function providerCampos()
+    {
         return array(
             array('id', 1),
             array('nome', 'FULANO'),
@@ -76,6 +80,4 @@ class ColaboradorTest extends TestCase
             array('cpf', '00217064175')
         );
     }
-
-
 }

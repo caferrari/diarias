@@ -2,8 +2,8 @@
 
 namespace Diarias\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Common\Model\Document;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM,
+    Common\Model\Document;
 
 /** @ODM\Document(collection="colaborador") */
 class Colaborador extends Document
@@ -23,11 +23,13 @@ class Colaborador extends Document
     /** @ODM\String */
     protected $cpf;
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = mb_strtoupper($nome);
     }
 
-    public function setCpf($cpf) {
+    public function setCpf($cpf)
+    {
         if (!is_numeric($cpf) || strlen($cpf) != 11) {
             throw new \InvalidArgumentException("CPF inválido");
         }
