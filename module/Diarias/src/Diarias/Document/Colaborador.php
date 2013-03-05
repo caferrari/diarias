@@ -15,6 +15,39 @@ class Colaborador extends Document
     protected $nome;
 
     /** @ODM\String */
+    protected $orgao;
+
+    /** @ODM\String */
+    protected $lotacao;
+
+    /** @ODM\String */
+    protected $cargo_efetivo;
+
+    /** @ODM\String */
+    protected $cargo_comissao;
+
+    /** @ODM\String */
+    protected $simbolo;
+
+    /** @ODM\String */
+    protected $agencia;
+
+    /** @ODM\String */
+    protected $conta;
+
+    /** @ODM\String */
+    protected $banco;
+
+    /** @ODM\String */
+    protected $rg;
+
+    /** @ODM\String */
+    protected $rg_orgao;
+
+    /** @ODM\String */
+    protected $rg_uf;
+
+    /** @ODM\String */
     protected $email;
 
     /** @ODM\Int */
