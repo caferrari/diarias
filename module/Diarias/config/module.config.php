@@ -11,7 +11,7 @@ return array(
             ),
             'odm_default' => array(
                 'drivers' => array(
-                    __NAMESPACE__ . '\Document' => __NAMESPACE__ . '_driver'
+                    __NAMESPACE__ . '\Model\Document' => __NAMESPACE__ . '_driver'
                 )
             )
         )
