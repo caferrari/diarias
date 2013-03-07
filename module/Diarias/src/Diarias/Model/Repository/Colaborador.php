@@ -63,7 +63,7 @@ class Colaborador extends DocumentRepository
         return $item;
     }
 
-    public function listAtivos()
+    public function listActive()
     {
         return $this->getDm()->getRepository($this->getDocumentClass())
             ->findBy(array('active' => true));
@@ -79,7 +79,7 @@ class Colaborador extends DocumentRepository
             ->execute();
     }
 
-    public function importFromTxt(DataSource $source)
+    public function importFromCsv(DataSource $source)
     {
         $headerMap = $this->getHeaderMap($source->getRow());
         $source->setMap($headerMap);

@@ -70,7 +70,7 @@ class ColaboradorTest extends TestCase
         $file = __DIR__ . '/../../../../resources/colaboradores-validos-1.csv';
         $repository = new Colaborador($this->getDm());
         $ds = new \Diarias\Model\DataSource($file);
-        $this->assertEquals(66, $repository->importFromTxt($ds));
+        $this->assertEquals(66, $repository->importFromCsv($ds));
     }
 
     public function testSeDesabilitaServidoresAntigos() {
@@ -78,25 +78,25 @@ class ColaboradorTest extends TestCase
 
         $file = __DIR__ . '/../../../../resources/colaboradores-validos-1.csv';
         $ds = new \Diarias\Model\DataSource($file);
-        $this->assertEquals(66, $repository->importFromTxt($ds));
+        $this->assertEquals(66, $repository->importFromCsv($ds));
 
-        $ativos = $repository->listAtivos();
+        $ativos = $repository->listActive();
         $this->assertInstanceOf('Iterator', $ativos);
         $this->assertEquals(66, count(iterator_to_array($ativos)));
 
         $file = __DIR__ . '/../../../../resources/colaboradores-validos-2.csv';
         $ds = new \Diarias\Model\DataSource($file);
-        $this->assertEquals(40, $repository->importFromTxt($ds));
+        $this->assertEquals(40, $repository->importFromCsv($ds));
 
-        $ativos = $repository->listAtivos();
+        $ativos = $repository->listActive();
         $this->assertInstanceOf('Iterator', $ativos);
         $this->assertEquals(40, count(iterator_to_array($ativos)));
 
         $file = __DIR__ . '/../../../../resources/colaboradores-validos-3.csv';
         $ds = new \Diarias\Model\DataSource($file);
-        $this->assertEquals(3, $repository->importFromTxt($ds));
+        $this->assertEquals(3, $repository->importFromCsv($ds));
 
-        $ativos = $repository->listAtivos();
+        $ativos = $repository->listActive();
         $this->assertInstanceOf('Iterator', $ativos);
         $this->assertEquals(3, count(iterator_to_array($ativos)));
     }
@@ -109,7 +109,7 @@ class ColaboradorTest extends TestCase
         $file = __DIR__ . '/../../../../resources/colaboradores-invalidos-1.csv';
         $repository = new Colaborador($this->getDm());
         $ds = new \Diarias\Model\DataSource($file);
-        $repository->importFromTxt($ds);
+        $repository->importFromCsv($ds);
     }
 
 }
