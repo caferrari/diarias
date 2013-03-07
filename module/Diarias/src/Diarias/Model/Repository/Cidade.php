@@ -11,8 +11,7 @@ class Cidade extends DocumentRepository
 
     public function importCidades()
     {
-
-        copy('https://github.com/diegoholiveira/br-estados-cidades/archive/master.zip', '/tmp/cidades.zip');
+        copy('http://github.com/diegoholiveira/br-estados-cidades/archive/master.zip', '/tmp/cidades.zip');
 
         $zip = new ZipArchive;
         if (false === $zip->open('/tmp/cidades.zip')) {
@@ -25,9 +24,9 @@ class Cidade extends DocumentRepository
 
         $cidades = 0;
 
-        $collection = $this->getDm()->getConnection()->selectCollection('cidade');
+        $dm = $this->getDm();
 
-        var_dump(get_class_methods($collection));
+        $dm->getDocumentDatabase($this->getDocumentClass())->dropCollection('cidade');
 
         foreach ($files as $file) {
             $estado = json_decode(file_get_contents($file));
@@ -40,12 +39,13 @@ class Cidade extends DocumentRepository
                 $data['nome'] = $cidade->nome;
 
                 $cidade = $this->getDocument($data);
-                $this->getDm()->persist($cidade);
+
+                $dm->persist($cidade);
                 $cidades++;
             }
+            $dm->flush();
         }
 
-        $this->getDm()->flush();
         return $cidades;
     }
 
