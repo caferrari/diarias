@@ -24,9 +24,6 @@ class Colaborador extends Document
     protected $cargo_efetivo;
 
     /** @ODM\String */
-    protected $cargo_comissao;
-
-    /** @ODM\String */
     protected $simbolo;
 
     /** @ODM\String */
@@ -55,6 +52,9 @@ class Colaborador extends Document
 
     /** @ODM\String */
     protected $cpf;
+
+    /** @ODM\Boolean */
+    protected $active = true;
 
     public function setNome($nome)
     {

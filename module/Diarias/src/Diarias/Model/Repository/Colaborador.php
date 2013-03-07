@@ -8,15 +8,20 @@ use Common\Model\DocumentRepository,
 class Colaborador extends DocumentRepository
 {
 
-    public function importFromTxt(DataSource $source)
-    {
-        $fields = array('ÓRGÃO' => 'orgao', 'MATRICULA' => 'matricula', 'NOME' => 'nome',
-            'LOTAÇÃO' => 'lotacao', 'CARGO EFETIVO' => 'cargo_efetivo', 'CARGO EM COMISSÃO' => 'cargo_comissao',
-            'SÍMBOLO' => 'simbolo', 'AGENCIA' => 'agencia', 'CONTA CORRENTE' => 'conta',
-            'BANCO - PAGAMENTO' => 'banco', 'IDENTIDADE NUMERO' => 'rg', 'IDENTIDADE ÓRGÃO' => 'rg_orgao',
-            'CPF' => 'cpf', 'INDENTIDADE UF' => 'rg_uf');
+    private $headerMap;
 
-        $headers = $source->getRow();
+    private function getHeaderMap(array $headers)
+    {
+
+        if (isset($this->headerMap)) {
+            return $this->headerMap;
+        }
+
+        $fields = array('ÓRGÃO' => 'orgao', 'MATRICULA' => 'matricula', 'NOME' => 'nome',
+            'LOTAÇÃO' => 'lotacao', 'CARGO EFETIVO' => 'cargo_efetivo', 'SÍMBOLO' => 'simbolo',
+            'AGENCIA' => 'agencia', 'CONTA CORRENTE' => 'conta', 'BANCO - PAGAMENTO' => 'banco',
+            'IDENTIDADE NUMERO' => 'rg', 'IDENTIDADE ÓRGÃO' => 'rg_orgao',
+            'CPF' => 'cpf', 'INDENTIDADE UF' => 'rg_uf');
 
         $documentFields = array_values($fields);
         $requiredFields = array_keys($fields);
@@ -24,33 +29,68 @@ class Colaborador extends DocumentRepository
         $headerMap = array();
         foreach ($requiredFields as $header) {
             $index = array_search($header, $headers);
-            if ($index === false) {
-                throw new \RuntimeException("Arquivo enviado não tem o campo \"$header\"");
+            if (false === $index) {
+                throw new \RuntimeException("Arquivo enviado deve ter o campo \"$header\"");
             }
-            $headerMap[$documentFields[$index]] = array_search($header, $requiredFields);
+            $documentIndex = array_search($header, $requiredFields);
+            $headerMap[$documentFields[$documentIndex]] = $index;
+        }
+        return $this->headerMap = $headerMap;
+    }
+
+    public function findByCpf($cpf)
+    {
+        return $this->getDm()->getRepository($this->getDocumentClass())
+            ->findOneBy(array('cpf' => $cpf));
+    }
+
+    public function insertOrUpdate(array $data)
+    {
+        $dm = $this->getDm();
+
+        $item = $this->findByCpf($data['cpf']);
+
+        if (!$item) {
+            $item = $this->getDocument($data);
+            $dm->persist($item);
+        } else {
+            $dm->refresh($item);
+            $item->setData($data);
+            $item->active = true;
         }
 
-        $colaboradores = array();
-        while ($line = $source->getRow()) {
-            $data = array();
-            foreach ($headerMap as $k => $v) {
-                $data[$k] = $line[$v];
-            }
+        $dm->flush($item);
+        return $item;
+    }
 
-            $repository = $this->getDm()->getRepository($this->getDocumentClass());
-            $item = $repository->findOneBy(array('cpf' => $data['cpf']));
-            if (!$item) {
-                $item = $this->getDocument($data);
-            } else {
-                $item->setData($data);
-            }
-            $this->getDm()->persist($item);
-            $this->getDm()->flush($item);
+    public function listAtivos()
+    {
+        return $this->getDm()->getRepository($this->getDocumentClass())
+            ->findBy(array('active' => true));
+    }
+
+    public function desactivateAll()
+    {
+        return $this->getDm()->createQueryBuilder($this->getDocumentClass())
+            ->update()
+            ->multiple(true)
+            ->field('active')->set(false)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function importFromTxt(DataSource $source)
+    {
+        $headerMap = $this->getHeaderMap($source->getRow());
+        $source->setMap($headerMap);
+        $this->desactivateAll();
+        $lines = 0;
+        while ($data = $source->getRow()) {
+            $this->insertOrUpdate($data);
+            $lines++;
         }
-
         $source->close();
-
-        return $colaboradores;
+        return $lines;
     }
 
 }

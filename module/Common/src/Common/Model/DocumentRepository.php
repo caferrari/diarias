@@ -20,7 +20,7 @@ abstract class DocumentRepository extends ODMDocumentRepository
         return $this->dm;
     }
 
-    public function getDocument(array $data) {
+    public function getDocument(array $data = null) {
         $class = $this->getDocumentClass();
         return new $class($data);
     }
