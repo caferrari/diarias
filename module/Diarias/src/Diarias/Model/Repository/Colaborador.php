@@ -40,6 +40,7 @@ class Colaborador extends DocumentRepository
 
     public function findByCpf($cpf)
     {
+        $cpf = preg_replace('@[^0-9]+@', '', $cpf);
         return $this->getDm()->getRepository($this->getDocumentClass())
             ->findOneBy(array('cpf' => $cpf));
     }
@@ -91,6 +92,23 @@ class Colaborador extends DocumentRepository
         }
         $source->close();
         return $lines;
+    }
+
+    public function getCargos()
+    {
+        $rs = $this->listActive();
+        $cargos = array();
+        foreach ($rs as $item) {
+            if ($item->cargo_efetivo) {
+                $cargos[] = $item->cargo_efetivo;
+            }
+            if ($item->simbolo) {
+                $cargos[] = $item->simbolo;
+            }
+        }
+        $cargos = array_unique($cargos);
+        sort($cargos);
+        return $cargos;
     }
 
 }

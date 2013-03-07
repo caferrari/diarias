@@ -29,18 +29,15 @@ class Valor extends DocumentRepository
             ->execute();
     }
 
-    public function getCargos() {
+    public function getCargos()
+    {
         $rs = $this->getDm()->getRepository($this->getDocumentClass())->findAll();
-
         $cargos = array();
-
         foreach ($rs as $item) {
             $cargos = array_merge($cargos, $item->cargos);
         }
         $cargos = array_unique($cargos);
-
         sort($cargos);
-
         return $cargos;
     }
 

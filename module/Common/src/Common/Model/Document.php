@@ -15,7 +15,7 @@ abstract class Document
     public function setData($data)
     {
         foreach ($data as $k => $v) {
-            $this->$k = $v;
+            $this->__set($k, $v);
         }
     }
 

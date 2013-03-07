@@ -21,14 +21,22 @@ class ColaboradorTest extends TestCase
     {
         $c = new Colaborador;
 
-        $campos = get_object_vars($c);
-
         try {
             $c->$campo = $valor;
             $this->assertEquals($valor, $c->$campo);
         } catch (\InvalidArgumentException $e) {
             $this->fail("Propriedade \"$campo\" não existe");
         }
+    }
+
+    /**
+      * @dataProvider providerForInvalidCpf
+      * @expectedException InvalidArgumentException
+      */
+    public function testCpfInválido($cpf)
+    {
+        $c = new Colaborador;
+        $c->cpf = $cpf;
     }
 
     /**
@@ -78,6 +86,19 @@ class ColaboradorTest extends TestCase
             array('nome', 'FULANO'),
             array('matricula', 123),
             array('cpf', '00217064175')
+        );
+    }
+
+    public function providerForInvalidCpf()
+    {
+        return array(
+            array(''),
+            array(123),
+            array('blabla'),
+            array('blableblibloblu'),
+            array(021706417539),
+            array(array()),
+            array(new \StdClass)
         );
     }
 }

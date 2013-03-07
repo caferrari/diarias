@@ -84,6 +84,8 @@ class ColaboradorTest extends TestCase
         $this->assertInstanceOf('Iterator', $ativos);
         $this->assertEquals(66, count(iterator_to_array($ativos)));
 
+        $this->assertEquals(26, count($repository->getCargos()));
+
         $file = __DIR__ . '/../../../../resources/colaboradores-validos-2.csv';
         $ds = new \Diarias\Model\DataSource($file);
         $this->assertEquals(40, $repository->importFromCsv($ds));
@@ -92,6 +94,8 @@ class ColaboradorTest extends TestCase
         $this->assertInstanceOf('Iterator', $ativos);
         $this->assertEquals(40, count(iterator_to_array($ativos)));
 
+        $this->assertEquals(20, count($repository->getCargos()));
+
         $file = __DIR__ . '/../../../../resources/colaboradores-validos-3.csv';
         $ds = new \Diarias\Model\DataSource($file);
         $this->assertEquals(3, $repository->importFromCsv($ds));
@@ -99,6 +103,8 @@ class ColaboradorTest extends TestCase
         $ativos = $repository->listActive();
         $this->assertInstanceOf('Iterator', $ativos);
         $this->assertEquals(3, count(iterator_to_array($ativos)));
+
+        $this->assertEquals(5, count($repository->getCargos()));
     }
 
     /**

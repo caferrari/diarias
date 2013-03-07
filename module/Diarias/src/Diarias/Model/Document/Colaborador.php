@@ -63,6 +63,12 @@ class Colaborador extends Document
 
     public function setCpf($cpf)
     {
+        if (!is_scalar($cpf)) {
+            throw new \InvalidArgumentException("CPF deve ser numérico");
+        }
+
+        $cpf = preg_replace('@[^0-9]+@', '', $cpf);
+
         if (!is_numeric($cpf) || strlen($cpf) != 11) {
             throw new \InvalidArgumentException("CPF inválido");
         }
