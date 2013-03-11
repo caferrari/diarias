@@ -11,7 +11,7 @@ services: mongodb
 
 before_script:
   - mkdir data/DoctrineMongoODMModule/Hydrator/ -p
-  - pecl -q install mongo-${MONGO_VERSION} && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - pecl -q install mongo-${MONGO_VERSION}
   - phpenv rehash
   - composer install --dev --prefer-dist
 
