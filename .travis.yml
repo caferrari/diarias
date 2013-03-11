@@ -1,8 +1,5 @@
 language: php
 
-env:
-  - MONGO_VERSION=1.2.12
-
 php:
   - 5.3
   - 5.4
@@ -11,8 +8,6 @@ services: mongodb
 
 before_script:
   - mkdir data/DoctrineMongoODMModule/Hydrator/ -p
-  - pecl -q install mongo-${MONGO_VERSION}
-  - phpenv rehash
   - composer install --dev --prefer-dist
 
 script: vendor/bin/phpunit --configuration module/Diarias/tests/phpunit.xml
