@@ -9,6 +9,8 @@ use Zend\Mvc\MvcEvent;
 class ModelTestCase extends TestCase
 {
 
+    protected $service = 'doctrine.documentmanager.odm_default';
+
     /**
      * @var EntityManager
      */
@@ -26,7 +28,7 @@ class ModelTestCase extends TestCase
             return $this->dm;
 
         }
-        return $this->dm = $this->application->getServiceManager()->get('doctrine.documentmanager.odm_default');
+        return $this->dm = $this->application->getServiceManager()->get($this->service);
     }
 
     public function getDmMock()

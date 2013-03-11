@@ -8,7 +8,7 @@ services: mongodb
 
 before_script:
   - mkdir data/DoctrineMongoODMModule/Hydrator/ -p
-  - pecl -q install -f mongo-1.2.12
+  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - phpenv rehash
   - composer install --dev --prefer-dist
 
