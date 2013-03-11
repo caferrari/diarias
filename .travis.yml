@@ -8,7 +8,7 @@ services: mongodb
 
 before_script:
   - mkdir data/DoctrineMongoODMModule/Hydrator/ -p
-  - pecl -f -q install mongo-1.2.12
+  - pecl -q install -f mongo-1.2.12
   - phpenv rehash
   - composer install --dev --prefer-dist
 
