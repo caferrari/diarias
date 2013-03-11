@@ -8,6 +8,8 @@ services: mongodb
 
 before_script:
   - mkdir data/DoctrineMongoODMModule/Hydrator/ -p
+  - pecl -fq install mongo-1.2.12
+  - phpenv rehash
   - composer install --dev --prefer-dist
 
 script: vendor/bin/phpunit --configuration module/Diarias/tests/phpunit.xml
