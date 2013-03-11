@@ -9,14 +9,14 @@ use Common\Model\DocumentRepository,
 class Cidade extends DocumentRepository
 {
 
-    public function importCidades()
+    public function importCidades($path)
     {
-        copy('http://github.com/diegoholiveira/br-estados-cidades/archive/master.zip', '/tmp/cidades.zip');
 
         $zip = new ZipArchive;
-        if (false === $zip->open('/tmp/cidades.zip')) {
-            return false;
+        if (false === ($status = $zip->open($path))) {
+            return $status;
         }
+
         $zip->extractTo('/tmp/cidadesJson/');
         $zip->close();
 
@@ -40,6 +40,7 @@ class Cidade extends DocumentRepository
                     $dm->flush();
                 }
             }
+            unlink($file);
         }
         $dm->flush();
 

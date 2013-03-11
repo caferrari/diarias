@@ -20,9 +20,11 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $pathDir = getcwd()."/";
         $config = include $pathDir.'config/test.config.php';
 
-        $this->serviceManager = new ServiceManager(new ServiceManagerConfig(
-                                isset($config['service_manager']) ? $config['service_manager'] : array()
-                ));
+        $this->serviceManager = new ServiceManager(
+            new ServiceManagerConfig(
+                isset($config['service_manager']) ? $config['service_manager'] : array()
+            )
+        );
         $this->serviceManager->setService('ApplicationConfig', $config);
         $this->serviceManager->setFactory('ServiceListener', 'Zend\Mvc\Service\ServiceListenerFactory');
 

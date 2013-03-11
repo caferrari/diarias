@@ -14,7 +14,8 @@ class CidadeTest extends ModelTestCase
 
     public function testSeImportaCidades()
     {
-        $repository = new Cidade($this->getDm());
-        $this->assertEquals(5507, $repository->importCidades());
+        $repository = new Cidade($this->getDmMock());
+        $path = getcwd() . '/module/Diarias/tests/resources/cidades.zip';
+        $this->assertEquals(39, $repository->importCidades($path));
     }
 }
