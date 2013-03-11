@@ -64,19 +64,51 @@ abstract class ControllerTestCase extends TestCase
     public function setup()
     {
         parent::setup();
+
+        $this->routes = $this->loadRoutes();
+
+        $this->serviceManager->setAllowOverride(true);
+
+        $this->event = new MvcEvent();
+        $this->event->setTarget($this->application);
+        $this->event->setApplication($this->application)
+            ->setRequest($this->application->getRequest())
+            ->setResponse($this->application->getResponse())
+            ->setRouter($this->serviceManager->get('Router'));
+
         $this->controller = new $this->controllerFQDN;
         $this->request    = new Request();
-        $this->routeMatch = new RouteMatch(array(
-            'router' => array(
-                'routes' => array(
-                    $this->controllerRoute => $this->routes[$this->controllerRoute]
+        $this->routeMatch = new RouteMatch(
+            array(
+                'router' => array(
+                    'routes' => array(
+                        $this->controllerRoute => $this->routes[$this->controllerRoute]
+                    )
                 )
             )
-        ));
+        );
         $this->event->setRouteMatch($this->routeMatch);
 
         $this->controller->setEvent($this->event);
         $this->controller->setServiceLocator($this->serviceManager);
+    }
+
+    private function loadRoutes()
+    {
+        $routes = array();
+        $invalidModules = array("DoctrineMongoODMModule", "DoctrineModule", "DoctrineORMModule", "DoctrineDataFixtureModule");
+        $this->modules = array_diff($moduleManager->getModules(), $invalidModules);
+
+        foreach ($this->modules  as $m) {
+            $moduleConfig = include $pathDir.'module/' . ucfirst($m) . '/config/module.config.php';
+            if (isset($moduleConfig['router'])) {
+                foreach ($moduleConfig['router']['routes'] as $key => $name) {
+                    $routes[$key] = $name;
+                }
+            }
+        }
+
+        $this->routes = $routes;
     }
 
     public function tearDown()

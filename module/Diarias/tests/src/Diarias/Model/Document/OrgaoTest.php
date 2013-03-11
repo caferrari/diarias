@@ -2,9 +2,9 @@
 
 namespace Diarias\Model\Document;
 
-use Test\TestCase;
+use Test\ModelTestCase;
 
-class OrgaoTest extends TestCase
+class OrgaoTest extends ModelTestCase
 {
 
     public function testSeClasseOrgaoExiste()

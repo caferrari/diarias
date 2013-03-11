@@ -20,14 +20,11 @@ class Cidade extends DocumentRepository
         $zip->extractTo('/tmp/cidadesJson/');
         $zip->close();
 
-        $files = glob('/tmp/cidadesJson/br-estados-cidades-master/data/*.json');
-
-        $cidades = 0;
-
         $dm = $this->getDm();
-
         $dm->getDocumentDatabase($this->getDocumentClass())->dropCollection('cidade');
 
+        $files = glob('/tmp/cidadesJson/br-estados-cidades-master/data/*.json');
+        $cidades = 0;
         foreach ($files as $file) {
             $estado = json_decode(file_get_contents($file));
             $data = array(
@@ -37,14 +34,14 @@ class Cidade extends DocumentRepository
             foreach ($estado->cidades as $cidade) {
                 $data['capital'] = $cidade->nome == $estado->capital;
                 $data['nome'] = $cidade->nome;
-
                 $cidade = $this->getDocument($data);
-
                 $dm->persist($cidade);
-                $cidades++;
+                if ($cidades++ % 50 == 0) {
+                    $dm->flush();
+                }
             }
-            $dm->flush();
         }
+        $dm->flush();
 
         return $cidades;
     }

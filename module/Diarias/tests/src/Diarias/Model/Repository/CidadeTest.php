@@ -2,9 +2,9 @@
 
 namespace Diarias\Model\Repository;
 
-use Test\TestCase;
+use Test\ModelTestCase;
 
-class CidadeTest extends TestCase
+class CidadeTest extends ModelTestCase
 {
 
     public function testSeClasseExiste()

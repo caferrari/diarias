@@ -2,9 +2,9 @@
 
 namespace Diarias\Model\Document;
 
-use Test\TestCase;
+use Test\ModelTestCase;
 
-class ValorTest extends TestCase
+class ValorTest extends ModelTestCase
 {
 
     public function testSeClasseOrgaoExiste()
