@@ -1,8 +1,10 @@
 <?php
 return array(
     'modules' => array(
+        'ZendDeveloperTools',
         'Diarias',
         'Test',
+        'Common',
         'DoctrineModule',
         'DoctrineMongoODMModule'
     ),

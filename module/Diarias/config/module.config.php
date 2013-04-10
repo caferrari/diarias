@@ -7,6 +7,7 @@ return array(
         'driver' => array(
             __NAMESPACE__ . '_driver' => array(
                 'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
                 'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Document')
             ),
             'odm_default' => array(
@@ -23,39 +24,23 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Diarias\Controller\Index',
+                        '__NAMESPACE__' => 'Diarias\Controller',
+                        'controller' => 'Index',
                         'action'     => 'index',
                     ),
                 ),
             ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'application' => array(
-                'type'    => 'Literal',
+            'crud' => array(
+                'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/application',
+                    'route' => '/:controller[/:action][?id=:id]',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Diarias\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'action' => 'index',
+                        'id' => null
                     ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
+                    'constraints' => array(
+                        'id' => '[0-9]+'
+                    )
                 ),
             ),
         ),
@@ -67,7 +52,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Diarias\Controller\Index' => 'Diarias\Controller\IndexController'
+            'Diarias\Controller\Index' => 'Diarias\Controller\Index'
+            // 'especie' => 'Clinica\Controller\Especie',
         ),
     ),
     'view_manager' => array(
@@ -86,4 +72,10 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'bootstrapRow' => 'Crud\Form\View\Helper\BootstrapRow',
+            'FlashMessages' => 'Crud\View\Helper\FlashMessages',
+        )
+    )
 );

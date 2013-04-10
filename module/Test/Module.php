@@ -6,4 +6,4 @@
  * The original Module.php is in 'src/DoctrineORMModule' in order to respect PSR-0
  */
 
-require_once __DIR__ . '/src/Common/Module.php';
+require_once __DIR__ . '/src/Test/Module.php';
