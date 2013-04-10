@@ -68,23 +68,4 @@ return array(
             ),
         ),
     ),
-
-    'view_manager' => array(
-        'template_map' => array(
-            'zend-developer-tools/toolbar/doctrine-odm' => __DIR__ . '/../view/zend-developer-tools/toolbar/doctrine-odm.phtml',
-        ),
-    ),
-
-    'zenddevelopertools' => array(
-        'profiler' => array(
-            'collectors' => array(
-                'odm_default' => 'doctrine.mongo_logger_collector.odm_default',
-            ),
-        ),
-        'toolbar' => array(
-            'entries' => array(
-                'odm_default' => 'zend-developer-tools/toolbar/doctrine-odm',
-            ),
-        ),
-    ),
 );

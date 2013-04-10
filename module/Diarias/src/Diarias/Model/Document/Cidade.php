@@ -5,7 +5,9 @@ namespace Diarias\Model\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM,
     Common\Model\Document;
 
-/** @ODM\Document(collection="cidade") */
+/**
+ * @ODM\Document(collection="cidade", repositoryClass="Diarias\Model\Repository\Cidade")
+ */
 class Cidade extends Document
 {
     /** @ODM\Id */

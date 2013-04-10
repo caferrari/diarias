@@ -17,13 +17,17 @@ class Cidade extends DocumentRepository
             return $status;
         }
 
-        $zip->extractTo('/tmp/cidadesJson/');
+        $dir = '/tmp/cidadesJson/' . uniqid();
+
+        @mkdir($dir);
+
+        $zip->extractTo($dir);
         $zip->close();
 
         $dm = $this->getDm();
         $dm->getDocumentDatabase($this->getDocumentClass())->dropCollection('cidade');
 
-        $files = glob('/tmp/cidadesJson/br-estados-cidades-master/data/*.json');
+        $files = glob($dir . '/br-estados-cidades-master/data/*.json');
         $cidades = 0;
         foreach ($files as $file) {
             $estado = json_decode(file_get_contents($file));
@@ -43,6 +47,8 @@ class Cidade extends DocumentRepository
             unlink($file);
         }
         $dm->flush();
+
+        shell_exec('rm -rf /tmp/cidadesJson/');
 
         return $cidades;
     }

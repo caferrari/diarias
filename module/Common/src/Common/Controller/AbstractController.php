@@ -28,6 +28,7 @@ abstract class AbstractController extends AbstractActionController
         } else {
             $document = strstr($document, '\\') === false ? "Diarias\\Model\\Document\\{$document}" : $document;
         }
+
         return $this->documentManager->getRepository($document);
     }
 
